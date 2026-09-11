@@ -1,0 +1,615 @@
+<title>쏙 배리어프리 존 기획안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #F2F5F4;
+    --surface: #FFFFFF;
+    --surface-sunk: #EAEFED;
+    --ink: #16262B;
+    --ink-soft: #4D6165;
+    --ink-faint: #7B8D8F;
+    --line: #D6DEDC;
+    --line-strong: #B6C4C1;
+    --teal: #0E6B70;
+    --teal-deep: #08474B;
+    --teal-wash: #E1EDEB;
+    --block: #C98A05;          /* 점자블록 노랑 계열 */
+    --block-mark: #F0B323;
+    --block-wash: #FBF0D6;
+    --alert: #A63A2B;
+    --alert-wash: #F7E7E3;
+    --radius: 4px;
+    --measure: 34rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0F191C;
+      --surface: #16242A;
+      --surface-sunk: #121E22;
+      --ink: #E7EEEC;
+      --ink-soft: #A7B8B7;
+      --ink-faint: #7E9192;
+      --line: #26383D;
+      --line-strong: #3A4F54;
+      --teal: #66C6C0;
+      --teal-deep: #9BDCD5;
+      --teal-wash: #12312F;
+      --block: #F0B323;
+      --block-mark: #F0B323;
+      --block-wash: #302610;
+      --alert: #E3897A;
+      --alert-wash: #34211D;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F191C;
+    --surface: #16242A;
+    --surface-sunk: #121E22;
+    --ink: #E7EEEC;
+    --ink-soft: #A7B8B7;
+    --ink-faint: #7E9192;
+    --line: #26383D;
+    --line-strong: #3A4F54;
+    --teal: #66C6C0;
+    --teal-deep: #9BDCD5;
+    --teal-wash: #12312F;
+    --block: #F0B323;
+    --block-mark: #F0B323;
+    --block-wash: #302610;
+    --alert: #E3897A;
+    --alert-wash: #34211D;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 0 72px;
+  }
+
+  h1, h2, h3 { font-family: "Gowun Batang", "Apple SD Gothic Neo", serif; font-weight: 700; text-wrap: balance; letter-spacing: -0.02em; }
+
+  p, li { max-width: var(--measure); }
+  .wide p, .wide li { max-width: none; }
+
+  a { color: var(--teal); text-underline-offset: 3px; }
+  :focus-visible { outline: 3px solid var(--block-mark); outline-offset: 2px; }
+
+  /* ── 점자블록 스트립 (촉지 유도블록 모티프) ── */
+  .tactile {
+    height: 10px;
+    background-image: radial-gradient(circle at center, var(--block-mark) 0 2.2px, transparent 2.4px);
+    background-size: 14px 10px;
+    opacity: .85;
+  }
+
+  /* ── 헤더 ── */
+  header.doc {
+    padding-block: 56px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font-size: .72rem; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--teal); margin: 0 0 14px;
+  }
+  header.doc h1 { font-size: clamp(2rem, 5.4vw, 3rem); line-height: 1.25; margin: 0 0 16px; }
+  .lede { font-size: 1.06rem; color: var(--ink-soft); margin: 0 0 26px; max-width: 40rem; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 26px;
+    font-size: .82rem; color: var(--ink-faint);
+    font-family: "IBM Plex Mono", monospace;
+    padding-top: 6px; border-top: 1px dotted var(--line-strong);
+  }
+  .meta b { color: var(--ink-soft); font-weight: 500; }
+
+  /* ── 섹션 ── */
+  section { padding-block: 46px; border-bottom: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px; }
+  .sec-num {
+    font-family: "IBM Plex Mono", monospace; font-size: .8rem; font-weight: 500;
+    color: var(--block); flex: none; padding-top: .35em;
+  }
+  section h2 { font-size: clamp(1.4rem, 3.2vw, 1.75rem); margin: 0; line-height: 1.35; }
+  .sec-sub { color: var(--ink-soft); margin: 0 0 24px 2.1rem; font-size: .95rem; }
+  @media (max-width: 560px) { .sec-sub { margin-left: 0; } }
+  h3 { font-size: 1.08rem; margin: 30px 0 8px; }
+  p { margin: 0 0 14px; }
+
+  ul.plain { padding-left: 1.1em; margin: 0 0 16px; }
+  ul.plain li { margin-bottom: 6px; }
+
+  /* ── 요약 리스트 ── */
+  .summary { border-top: 2px solid var(--ink); margin-top: 4px; }
+  .summary > div {
+    display: grid; grid-template-columns: 8.5rem 1fr; gap: 4px 24px;
+    padding: 18px 0; border-bottom: 1px solid var(--line);
+  }
+  .summary dt, .summary .k {
+    font-weight: 600; font-size: .9rem; color: var(--teal); letter-spacing: -0.005em;
+  }
+  .summary .v { margin: 0; color: var(--ink); }
+  @media (max-width: 560px) { .summary > div { grid-template-columns: 1fr; } }
+
+  /* ── 진단 항목 ── */
+  .gaps { display: grid; gap: 2px; background: var(--line); border: 1px solid var(--line); }
+  .gap { background: var(--surface); padding: 20px 22px; }
+  .gap h3 { margin: 0 0 6px; font-size: 1rem; }
+  .gap p { margin: 0; font-size: .93rem; color: var(--ink-soft); }
+  .gap .tag {
+    display: inline-block; font-size: .72rem; font-family: "IBM Plex Mono", monospace;
+    color: var(--alert); background: var(--alert-wash); padding: 2px 7px; border-radius: 2px; margin-bottom: 8px;
+  }
+
+  /* ── 허브 시안 ── */
+  .mock {
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: 6px; overflow: hidden; margin: 22px 0 8px;
+    box-shadow: 0 14px 34px -26px rgba(8,40,45,.55);
+  }
+  .mock-bar {
+    display: flex; align-items: center; gap: 10px; padding: 9px 14px;
+    background: var(--surface-sunk); border-bottom: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace; font-size: .72rem; color: var(--ink-faint);
+  }
+  .mock-bar span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); flex: none; }
+  .mock-body { padding: 22px; }
+  .mock-hero { border-bottom: 1px dotted var(--line-strong); padding-bottom: 18px; margin-bottom: 18px; }
+  .mock-hero h3 { font-size: 1.35rem; margin: 6px 0 8px; }
+  .mock-hero p { font-size: .92rem; color: var(--ink-soft); margin: 0; }
+  .mock-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .mock-block { border: 1px solid var(--line); padding: 14px 15px; border-radius: var(--radius); }
+  .mock-block .bnum {
+    font-family: "IBM Plex Mono", monospace; font-size: .7rem; color: var(--block); display: block; margin-bottom: 5px;
+  }
+  .mock-block strong { display: block; font-size: .95rem; margin-bottom: 4px; }
+  .mock-block span.desc { font-size: .82rem; color: var(--ink-soft); line-height: 1.6; display: block; }
+  .caption { font-size: .8rem; color: var(--ink-faint); margin: 10px 0 0; }
+
+  /* ── 배지 ── */
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .82rem; font-weight: 500;
+    border: 1px solid var(--teal); color: var(--teal);
+    background: var(--teal-wash); padding: 5px 11px; border-radius: 999px;
+  }
+  .badge.warn { border-color: var(--block); color: var(--block); background: var(--block-wash); }
+  .badge .ico { font-size: .95rem; }
+
+  /* ── 표 ── */
+  .table-scroll { overflow-x: auto; margin: 18px 0 6px; border: 1px solid var(--line); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: .88rem; background: var(--surface); }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-sunk); font-weight: 600; font-size: .8rem; color: var(--ink-soft); letter-spacing: .02em; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td code, .mono { font-family: "IBM Plex Mono", monospace; font-size: .84em; color: var(--teal-deep); }
+  td.num { font-variant-numeric: tabular-nums; }
+
+  /* ── 코드 ── */
+  pre {
+    background: var(--surface-sunk); border: 1px solid var(--line); border-left: 3px solid var(--teal);
+    border-radius: var(--radius); padding: 16px 18px; overflow-x: auto;
+    font-family: "IBM Plex Mono", monospace; font-size: .8rem; line-height: 1.7; color: var(--ink);
+    margin: 16px 0;
+  }
+  pre .c { color: var(--ink-faint); }
+  pre .k { color: var(--teal); }
+
+  /* ── 쉬운 정보 토글 데모 ── */
+  .demo { border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; margin: 20px 0 8px; background: var(--surface); }
+  .demo-head {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 16px; background: var(--surface-sunk); border-bottom: 1px solid var(--line);
+  }
+  .demo-head .label { font-size: .78rem; font-family: "IBM Plex Mono", monospace; color: var(--ink-faint); letter-spacing: .04em; }
+  .switch { display: flex; gap: 0; border: 1px solid var(--line-strong); border-radius: 999px; overflow: hidden; }
+  .switch button {
+    font: inherit; font-size: .84rem; font-weight: 500; padding: 6px 15px;
+    background: var(--surface); color: var(--ink-soft); border: 0; cursor: pointer;
+  }
+  .switch button[aria-pressed="true"] { background: var(--teal); color: #fff; }
+  :root[data-theme="dark"] .switch button[aria-pressed="true"],
+  .switch button[aria-pressed="true"] { color: #06282A; }
+  .demo-body { padding: 22px 24px; }
+  .demo-body h4 { margin: 0 0 10px; font-size: 1.05rem; font-family: "Gowun Batang", serif; }
+  .demo-body p { margin: 0 0 12px; }
+  .demo-body.easy {
+    font-size: 1.12rem; line-height: 2.05; letter-spacing: 0;
+  }
+  .demo-body.easy h4 { font-family: "IBM Plex Sans KR", sans-serif; font-weight: 700; font-size: 1.25rem; }
+  .demo-body.easy p { max-width: 26rem; }
+  .demo-body.easy .step {
+    display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px dashed var(--line);
+  }
+  .demo-body.easy .step .n {
+    flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--block-wash);
+    color: var(--block); font-weight: 700; display: grid; place-items: center; font-size: .95rem;
+    font-family: "IBM Plex Sans KR", sans-serif; margin-top: 6px;
+  }
+  [hidden] { display: none !important; }
+
+  /* ── 로드맵 ── */
+  .road { display: grid; gap: 0; margin-top: 10px; }
+  .phase {
+    display: grid; grid-template-columns: 7.5rem 1fr; gap: 0 22px;
+    padding: 20px 0; border-top: 1px solid var(--line);
+  }
+  .phase:last-child { border-bottom: 1px solid var(--line); }
+  .phase .when {
+    font-family: "IBM Plex Mono", monospace; font-size: .82rem; color: var(--block);
+    font-weight: 500; padding-top: .2em;
+  }
+  .phase h3 { margin: 0 0 6px; font-size: 1.02rem; }
+  .phase ul { margin: 0; padding-left: 1.1em; font-size: .92rem; color: var(--ink-soft); }
+  .phase li { margin-bottom: 4px; }
+  @media (max-width: 560px) { .phase { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* ── 확인 필요 박스 ── */
+  .checkbox-list { list-style: none; padding: 0; margin: 16px 0 0; max-width: 44rem; }
+  .checkbox-list li {
+    display: flex; gap: 12px; align-items: flex-start; padding: 11px 0; border-bottom: 1px dotted var(--line-strong);
+    font-size: .93rem; max-width: none;
+  }
+  .checkbox-list li::before {
+    content: ""; flex: none; width: 15px; height: 15px; margin-top: .45em;
+    border: 1.5px solid var(--line-strong); border-radius: 2px;
+  }
+  .note {
+    background: var(--block-wash); border-left: 3px solid var(--block-mark);
+    padding: 14px 18px; border-radius: 0 var(--radius) var(--radius) 0; margin: 22px 0 0;
+    font-size: .89rem; color: var(--ink-soft);
+  }
+  .note strong { color: var(--ink); }
+  footer { padding-block: 34px 0; font-size: .84rem; color: var(--ink-faint); }
+  footer p { max-width: 44rem; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="tactile" role="presentation"></div>
+
+<div class="wrap">
+
+  <header class="doc">
+    <p class="eyebrow">시흥교육캠퍼스 쏙(SSOC) · 정보제공 기획</p>
+    <h1>쏙 안에 배리어프리 존을 만듭니다</h1>
+    <p class="lede">
+      장애인평생교육기관 개소를 계기로, 흩어져 있던 장애인 평생학습 정보를
+      쏙(SSOC) 안의 한 곳으로 모으고 — 강좌 정보 자체에 <b>접근성 정보</b>를 붙이는 방식의 제안서입니다.
+    </p>
+    <div class="meta">
+      <span><b>작성일</b> 2026-09-11</span>
+      <span><b>대상</b> 쏙 운영·콘텐츠 관리</span>
+      <span><b>범위</b> 정보구조 · 콘텐츠 형식 · 운영</span>
+      <span><b>상태</b> 검토용 초안</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>제안 요약</h2></div>
+    <p class="sec-sub">별도 사이트를 새로 만들지 않습니다. 쏙 안에서 해결합니다.</p>
+    <div class="summary">
+      <div><span class="k">허브 1개</span><p class="v">「장애인 평생학습」 상설 메뉴를 쏙에 신설. 기관 소개·강좌·이용방법·문의를 한 화면에서 끝냅니다. 개소식은 이 허브를 여는 명분이자 첫 콘텐츠입니다.</p></div>
+      <div><span class="k">배지 1세트</span><p class="v">쏙의 모든 강좌 카드에 접근성 배지(수어통역·휠체어 접근·쉬운 교재·활동지원사 동행 등)를 답니다. 장애인 전용 강좌만이 아니라 <b>전체 강좌</b>가 대상입니다.</p></div>
+      <div><span class="k">형식 3종</span><p class="v">핵심 안내문은 ① 일반문 ② 쉬운 정보(Easy-read) ③ 수어+자막 영상 세 형태로 동시에 냅니다. 하나만 있는 안내는 미공개 상태와 크게 다르지 않습니다.</p></div>
+      <div><span class="k">채널 4개</span><p class="v">쏙 홈페이지 · 카카오톡 채널 · 유튜브 「시흥시평생교육원」 · 오프라인 배포(복지관, 특수학교, 주간활동센터)를 하나의 QR로 연결합니다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>지금 구조에서 빠지는 것</h2></div>
+    <p class="sec-sub">쏙은 이미 온라인·화상·오프라인 학습과 17개 분야 분류, 소식나눔, 고객센터를 갖추고 있습니다. 문제는 '없는 기능'이 아니라 '판단할 수 없는 정보'입니다.</p>
+    <div class="gaps">
+      <div class="gap">
+        <span class="tag">판단 불가</span>
+        <h3>내가 들을 수 있는 강좌인지 알 수 없다</h3>
+        <p>강좌 상세에 장소·정원·기간은 있지만, 엘리베이터가 있는지, 수어통역이 붙는지, 활동지원사가 같이 들어가도 되는지가 없습니다. 결국 전화로 물어봐야 하고, 그 전화 자체가 장벽이 됩니다.</p>
+      </div>
+      <div class="gap">
+        <span class="tag">분산</span>
+        <h3>학습 정보와 복지 정보가 다른 곳에 있다</h3>
+        <p>장애인평생학습센터·장애인종합복지관·특수학교 평생교육 프로그램이 각각의 게시판에 흩어져 있습니다. 이용자에게는 '시흥시에서 내가 배울 수 있는 것' 하나의 질문인데, 답은 서너 군데에 나뉘어 있습니다.</p>
+      </div>
+      <div class="gap">
+        <span class="tag">형식 장벽</span>
+        <h3>안내문의 형식이 도달을 막는다</h3>
+        <p>긴 공지문과 이미지 포스터(대체텍스트 없음)는 발달장애 이용자에게는 읽히지 않고, 시각장애 이용자의 화면낭독기에는 아예 존재하지 않습니다. 내용은 공개됐지만 정보는 전달되지 않은 상태입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>허브 페이지 구성안</h2></div>
+    <p class="sec-sub">이용자가 '개소 소식 → 신청 가능한 강좌 → 가는 방법 → 문의'까지 한 번의 스크롤로 끝내도록 배치합니다.</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="mono">siheung.gseek.kr / 장애인 평생학습</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-hero">
+          <p class="eyebrow" style="margin-bottom:4px">시흥시 장애인 평생학습</p>
+          <h3>배우고 싶은 것을 배웁니다</h3>
+          <p>시흥시 장애인평생교육기관이 문을 열었습니다. 어디서 무엇을 배울 수 있는지 한 곳에 모았습니다.<br>
+            <span class="mono" style="font-size:.78rem">[ 쉬운 정보로 보기 ] [ 수어 영상 ] [ 소리로 듣기 ]</span></p>
+        </div>
+        <div class="mock-grid">
+          <div class="mock-block"><span class="bnum">블록 1</span><strong>기관 한눈에</strong><span class="desc">위치·운영시간·가는 방법·주차·화장실·연락처. 지도 위 도보 경로와 저상버스 노선까지.</span></div>
+          <div class="mock-block"><span class="bnum">블록 2</span><strong>지금 신청할 수 있는 강좌</strong><span class="desc">접근성 배지가 붙은 강좌 목록. '장애 유형별 보기' 필터 제공.</span></div>
+          <div class="mock-block"><span class="bnum">블록 3</span><strong>신청하는 방법 4단계</strong><span class="desc">그림 + 짧은 문장. 온라인이 어려우면 전화·방문·문자 대안을 같은 비중으로 표시.</span></div>
+          <div class="mock-block"><span class="bnum">블록 4</span><strong>받을 수 있는 도움</strong><span class="desc">수어통역, 점자·확대 자료, 이동지원, 활동지원사 동행, 문해 보조. 신청 기한 포함.</span></div>
+          <div class="mock-block"><span class="bnum">블록 5</span><strong>쉬운 정보 자료실</strong><span class="desc">모집 공고·수료 안내·시설 이용 규칙의 쉬운 정보판 PDF와 웹 버전.</span></div>
+          <div class="mock-block"><span class="bnum">블록 6</span><strong>물어보기</strong><span class="desc">전화·문자·카카오톡·방문·영상수어 상담. 응답 가능 시간 명시.</span></div>
+          <div class="mock-block"><span class="bnum">블록 7</span><strong>함께하는 곳</strong><span class="desc">장애인평생학습센터, 복지관, 특수학교, 주간활동센터 프로그램을 한 표로.</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="caption">화면 시안 — 문구와 기관 정보는 예시이며, 실제 개소 정보로 교체 필요(11번 항목 참고).</p>
+
+    <h3>메뉴를 어디에 두는가</h3>
+    <p>학습 분야 카테고리 안에 한 줄로 넣으면 묻힙니다. 상단 <span class="mono">학습</span> 메뉴와 같은 층위에 「장애인 평생학습」을 두고,
+      동시에 기존 17개 분야 어디에서든 접근성 배지로 필터링되도록 합니다. 허브는 입구이고, 배지는 전 구역에 깔리는 유도블록입니다.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>접근성 배지 체계</h2></div>
+    <p class="sec-sub">이 기획의 핵심 구현물. 강좌 하나당 5~10초면 담당자가 체크할 수 있는 수준으로 설계합니다.</p>
+    <div class="badges">
+      <span class="badge"><span class="ico" aria-hidden="true">♿</span>휠체어 접근 가능</span>
+      <span class="badge"><span class="ico" aria-hidden="true">🤟</span>수어통역 있음</span>
+      <span class="badge"><span class="ico" aria-hidden="true">📝</span>문자통역·속기</span>
+      <span class="badge"><span class="ico" aria-hidden="true">📖</span>쉬운 말 교재</span>
+      <span class="badge"><span class="ico" aria-hidden="true">🧑‍🤝‍🧑</span>활동지원사 동행 가능</span>
+      <span class="badge"><span class="ico" aria-hidden="true">🔎</span>점자·확대 자료</span>
+      <span class="badge"><span class="ico" aria-hidden="true">🚌</span>이동지원 연계</span>
+      <span class="badge warn"><span class="ico" aria-hidden="true">☎</span>확인 필요 — 문의 주세요</span>
+    </div>
+    <h3>운영 규칙 세 가지</h3>
+    <ul class="plain">
+      <li><b>빈칸을 만들지 않습니다.</b> 확인되지 않은 항목은 비워두지 말고 「확인 필요」 배지로 표시하고 담당자 연락처를 붙입니다. 정보 없음과 지원 없음은 다릅니다.</li>
+      <li><b>사전 신청 기한을 함께 적습니다.</b> 수어통역·속기는 대개 사전 예약이 필요합니다. 배지에 <span class="mono">개강 7일 전까지 신청</span>처럼 조건을 붙여야 실제로 쓸 수 있습니다.</li>
+      <li><b>확인 주체를 남깁니다.</b> 누가 언제 확인한 정보인지(<span class="mono">checked_by</span>, <span class="mono">checked_at</span>) 기록해야 매 학기 갱신이 가능합니다.</li>
+    </ul>
+  </section>
+
+  <section class="wide">
+    <div class="sec-head"><span class="sec-num">05</span><h2>데이터 모델</h2></div>
+    <p class="sec-sub">새 시스템을 만드는 대신, 기존 강좌·기관 데이터에 필드를 더합니다. 운영자가 채울 수 있는 양이어야 유지됩니다.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th style="width:24%">필드</th><th style="width:16%">형식</th><th>설명 · 입력 예</th></tr></thead>
+        <tbody>
+          <tr><td><code>access.entrance</code></td><td>택1</td><td>주출입구 단차 없음 / 경사로 있음 / 계단만 있음</td></tr>
+          <tr><td><code>access.elevator</code></td><td>예·아니오</td><td>강의실까지 엘리베이터 이용 가능 여부</td></tr>
+          <tr><td><code>access.restroom</code></td><td>예·아니오</td><td>장애인용 화장실(같은 층 여부까지 기재)</td></tr>
+          <tr><td><code>access.parking</code></td><td>숫자</td><td class="num">장애인 전용 주차면 수 · 예: 2</td></tr>
+          <tr><td><code>support.sign</code></td><td>객체</td><td>수어통역 제공 여부 + 신청 기한(일)</td></tr>
+          <tr><td><code>support.caption</code></td><td>객체</td><td>문자통역·속기 제공 여부 + 신청 기한</td></tr>
+          <tr><td><code>support.easyMaterial</code></td><td>예·아니오</td><td>쉬운 말 교재·유인물 제공</td></tr>
+          <tr><td><code>support.assistant</code></td><td>택1</td><td>활동지원사 동행 가능 / 사전 협의 / 불가</td></tr>
+          <tr><td><code>target.types</code></td><td>다중선택</td><td>지체·시각·청각·발달·기타 / 비장애인 통합</td></tr>
+          <tr><td><code>apply.offlineChannels</code></td><td>다중선택</td><td>전화·방문·문자·팩스 — 온라인 외 신청 경로</td></tr>
+          <tr><td><code>content.easyUrl</code></td><td>URL</td><td>쉬운 정보 버전 링크</td></tr>
+          <tr><td><code>content.signVideoUrl</code></td><td>URL</td><td>수어 안내 영상(자막 필수)</td></tr>
+          <tr><td><code>checked_by / checked_at</code></td><td>문자열·날짜</td><td>정보 확인 담당자와 확인일</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<pre><span class="c">// 강좌 1건 예시 (시안용 가상 데이터)</span>
+{
+  <span class="k">"courseId"</span>: "2026-BF-014",
+  <span class="k">"title"</span>: "스마트폰으로 사진 찍기",
+  <span class="k">"target"</span>: { "types": ["발달", "지체"], "inclusive": true },
+  <span class="k">"access"</span>: { "entrance": "단차없음", "elevator": true, "restroom": true, "parking": 2 },
+  <span class="k">"support"</span>: {
+    "sign":   { "available": true,  "noticeDays": 7 },
+    "caption":{ "available": false, "noticeDays": null },
+    "easyMaterial": true,
+    "assistant": "동행가능"
+  },
+  <span class="k">"apply"</span>: { "online": true, "offlineChannels": ["전화", "방문", "문자"] },
+  <span class="k">"content"</span>: { "easyUrl": "/easy/2026-BF-014", "signVideoUrl": "https://youtu.be/..." },
+  <span class="k">"checked_by"</span>: "평생교육원 담당", <span class="k">"checked_at"</span>: "2026-09-01"
+}</pre>
+    <p class="caption">배지는 이 데이터에서 자동 생성됩니다. 담당자는 배지를 그리는 것이 아니라 체크박스를 채웁니다.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>쉬운 정보(Easy-read)로 다시 쓰기</h2></div>
+    <p class="sec-sub">같은 공지를 두 형식으로 만든 예시입니다. 오른쪽 버튼으로 전환해 보세요.</p>
+
+    <div class="demo">
+      <div class="demo-head">
+        <span class="label">모집 공고 · 표시 형식</span>
+        <div class="switch" role="group" aria-label="안내문 형식 선택">
+          <button id="btn-normal" type="button" aria-pressed="true">일반 안내문</button>
+          <button id="btn-easy" type="button" aria-pressed="false">쉬운 정보</button>
+        </div>
+      </div>
+
+      <div class="demo-body" id="view-normal">
+        <h4>2026년 하반기 장애인 평생학습 프로그램 수강생 모집 공고</h4>
+        <p>시흥시 장애인평생교육기관에서는 지역 내 장애인의 평생학습권 보장 및 자기주도적 학습역량 강화를 위하여
+          2026년 하반기 맞춤형 평생학습 프로그램 수강생을 아래와 같이 모집하오니 관심 있는 분들의 많은 참여를 바랍니다.</p>
+        <p>접수기간은 공고일로부터 정원 충족 시까지이며, 신청서는 기관 방문 또는 온라인 학습 플랫폼을 통해 제출하실 수 있습니다.
+          선발 결과는 개별 통보하며, 기타 자세한 사항은 담당 부서로 문의하시기 바랍니다.</p>
+        <p class="mono" style="font-size:.8rem;color:var(--ink-faint)">※ 실제 공고문이 아닌 형식 비교용 예시입니다.</p>
+      </div>
+
+      <div class="demo-body easy" id="view-easy" hidden>
+        <h4>배우고 싶은 것을 신청하세요</h4>
+        <p>시흥시 장애인평생교육기관에서<br>새로운 수업을 시작합니다.</p>
+        <div class="step"><span class="n">1</span><p>배우고 싶은 수업을 고릅니다.</p></div>
+        <div class="step"><span class="n">2</span><p>전화하거나, 기관에 갑니다.<br>인터넷으로 신청해도 됩니다.</p></div>
+        <div class="step"><span class="n">3</span><p>이름과 연락처를 알려 줍니다.</p></div>
+        <div class="step"><span class="n">4</span><p>수업을 들을 수 있는지<br>전화로 알려 드립니다.</p></div>
+        <p style="margin-top:16px">어렵거나 궁금하면 전화하세요.<br>같이 해 드립니다.</p>
+        <p class="mono" style="font-size:.8rem;color:var(--ink-faint)">※ 형식 비교용 예시입니다. 실제 배포 전 당사자 감수를 받습니다.</p>
+      </div>
+    </div>
+
+    <h3>쉬운 정보 작성 규칙</h3>
+    <ul class="plain">
+      <li>한 문장에 한 가지 내용만. 문장은 짧게, 줄바꿈은 의미 단위로.</li>
+      <li>행정 용어를 일상어로: '수강생 모집' → '신청하세요', '개별 통보' → '전화로 알려 드립니다'.</li>
+      <li>순서가 있는 일은 번호와 그림으로. 숫자·날짜는 본문에서 빼서 따로 표시.</li>
+      <li>글씨 크기 최소 16pt 상당, 줄간격 넉넉히, 배경과 글자의 명도 대비 확보.</li>
+      <li><b>발달장애 당사자의 감수를 거친 뒤에 게시합니다.</b> 감수 없는 쉬운 정보는 추측일 뿐입니다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>웹 자체의 접근성</h2></div>
+    <p class="sec-sub">내용을 잘 써도 화면이 막으면 소용없습니다. 개발 요청 시 그대로 전달할 수 있는 항목입니다.</p>
+    <ul class="plain">
+      <li>모든 포스터 이미지에 대체텍스트. 포스터에만 있는 정보(일시·장소·연락처)는 <b>반드시 본문 텍스트로도</b> 제공.</li>
+      <li>키보드만으로 신청 완료까지 도달 가능. 초점 표시는 눈에 보이게.</li>
+      <li>영상은 자막 + 수어. 자동재생·자동 슬라이드 배너는 정지 버튼 제공.</li>
+      <li>본문 확대 200%에서 레이아웃이 깨지지 않을 것. 색만으로 상태를 구분하지 않을 것.</li>
+      <li>신청 양식은 라벨을 명확히, 오류 메시지는 '무엇이 틀렸고 어떻게 고치는지'를 문장으로.</li>
+      <li>한국형 웹 콘텐츠 접근성 지침(KWCAG) 기준으로 점검하고, 웹 접근성 인증마크 취득을 다음 개편 목표로 설정.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>채널 운영</h2></div>
+    <p class="sec-sub">쏙이 이미 쓰고 있는 채널을 그대로 활용합니다. 새 계정을 늘리지 않습니다.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th style="width:22%">채널</th><th style="width:30%">역할</th><th>이 기획에서 할 일</th></tr></thead>
+        <tbody>
+          <tr><td><b>쏙 홈페이지</b></td><td>원본 정보의 집</td><td>허브 신설, 강좌 배지 적용, 쉬운 정보 자료실 운영</td></tr>
+          <tr><td><b>카카오톡 채널</b></td><td>개별 도달</td><td>모집 알림. 청각장애 이용자를 위해 전화 대신 <b>문자·채팅 상담</b>을 기본 창구로 안내</td></tr>
+          <tr><td><b>유튜브 시흥시평생교육원</b></td><td>영상 안내</td><td>기관 소개 수어 영상, 시설 둘러보기, 신청 방법 1분 영상. 전 영상 자막 필수</td></tr>
+          <tr><td><b>오프라인</b></td><td>비이용자 도달</td><td>복지관·특수학교·주간활동센터·행정복지센터에 쉬운 정보 리플릿 + 허브 QR 배포</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><strong>중요.</strong> 온라인 플랫폼이 주 창구가 되면 디지털 접근이 어려운 이용자가 그대로 배제됩니다.
+      모든 안내에서 전화·방문 신청을 온라인과 같은 크기·같은 위치에 표시하는 것을 원칙으로 삼기를 권합니다.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">09</span><h2>개소식을 기점으로 한 추진 순서</h2></div>
+    <p class="sec-sub">개소식은 이벤트가 아니라 정보 인프라를 여는 날로 씁니다.</p>
+    <div class="road">
+      <div class="phase">
+        <span class="when">D-14 ~ D-1</span>
+        <div>
+          <h3>최소 허브 공개</h3>
+          <ul>
+            <li>기관 기본정보 한 페이지(위치·시간·연락처·가는 방법)를 먼저 연다</li>
+            <li>같은 내용의 쉬운 정보 버전과 수어 영상 1편을 동시 공개</li>
+            <li>개소식 안내에 참가 편의 지원(수어통역·이동지원) 신청 방법 명시</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <span class="when">개소 주간</span>
+        <div>
+          <h3>첫 콘텐츠 확보</h3>
+          <ul>
+            <li>시설 둘러보기 영상 촬영 — 입구부터 강의실까지의 실제 동선</li>
+            <li>개소식 현장에서 이용자 질문을 수집해 그대로 FAQ 초안으로</li>
+            <li>첫 모집 공고를 3종 형식(일반·쉬운 정보·수어)으로 발행하며 형식 표준을 확정</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <span class="when">1 ~ 3개월</span>
+        <div>
+          <h3>배지 체계 적용</h3>
+          <ul>
+            <li>장애인 대상 강좌 전체에 접근성 필드 입력 → 배지 노출</li>
+            <li>일반 강좌로 확대. 기존 장애인 우선 선발제 대상 강좌부터 우선 적용</li>
+            <li>복지관·특수학교 프로그램을 허브 블록 7에 통합 게시</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <span class="when">6개월 ~ 1년</span>
+        <div>
+          <h3>당사자 운영으로 전환</h3>
+          <ul>
+            <li>당사자 모니터링단이 분기별로 허브와 안내문을 점검·감수</li>
+            <li>장애인평생학습협의회 안건으로 점검 결과 보고, 중장기 로드맵에 반영</li>
+            <li>웹 접근성 인증 심사 준비, 쉬운 정보 자료 누적본을 공개 자료로 배포</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">10</span><h2>점검 지표</h2></div>
+    <p class="sec-sub">조회수만 보면 정작 도달하지 못한 사람이 보이지 않습니다.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th style="width:34%">지표</th><th style="width:20%">주기</th><th>보는 이유</th></tr></thead>
+        <tbody>
+          <tr><td>접근성 정보가 입력된 강좌 비율</td><td>월</td><td>배지 체계가 실제로 굴러가는지</td></tr>
+          <tr><td>「확인 필요」 배지 잔량</td><td>월</td><td>모르는 채 방치된 정보의 양</td></tr>
+          <tr><td>쉬운 정보 동시 발행률</td><td>공고 단위</td><td>일반문만 나간 공고가 없는지</td></tr>
+          <tr><td>비온라인 경로 신청 건수</td><td>분기</td><td>디지털 취약 이용자가 실제로 들어오는지</td></tr>
+          <tr><td>편의지원 신청 건수 · 충족률</td><td>분기</td><td>지원을 약속만 하고 있지는 않은지</td></tr>
+          <tr><td>당사자 모니터링 지적사항 처리율</td><td>분기</td><td>피드백이 실제 수정으로 이어지는지</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">11</span><h2>먼저 확인해야 할 것</h2></div>
+    <p class="sec-sub">이 문서의 기관 관련 서술은 공개된 정보를 바탕으로 한 시안입니다. 아래 항목은 담당 부서 확인 후 확정이 필요합니다.</p>
+    <ul class="checkbox-list">
+      <li>기관 정식 명칭과 개소일 · 개소식 일정</li>
+      <li>정확한 주소, 층수, 엘리베이터·장애인 화장실·주차면 현황</li>
+      <li>운영시간, 휴관일, 대표 전화 및 문자 수신 가능 번호</li>
+      <li>수어통역·속기·이동지원의 지원 범위와 사전 신청 기한</li>
+      <li>운영 주체(직영·위탁)와 문의 담당 부서</li>
+      <li>기존 장애인평생학습센터 프로그램과의 역할 구분</li>
+      <li>쏙 플랫폼(GSEEK 기반)에서 강좌 필드 추가가 가능한 범위 — 시스템 담당자 협의 필요</li>
+    </ul>
+    <p class="note"><strong>먼저 물어볼 곳.</strong> 시흥시 평생교육 담당 부서, 시흥시 장애인평생학습센터,
+      그리고 장애인평생학습협의회 위원들. 특히 협의회는 이미 장애인 평생학습 사업을 논의하는 창구이므로,
+      이 기획안의 검토 자체를 다음 회의 안건으로 올리는 것이 가장 빠른 경로입니다.</p>
+  </section>
+
+  <footer>
+    <p>참고: 시흥교육캠퍼스 쏙(SSOC) 서비스 구조, 시흥시 장애인 평생학습 사업(장애인 우선 선발제, 현장 역량 플러스+, 장애인평생학습협의회) 관련 공개 보도자료.
+      본 문서의 강좌·공고 예시는 형식 설명을 위한 가상 데이터입니다.</p>
+  </footer>
+</div>
+
+<div class="tactile" role="presentation"></div>
+
+<script>
+  (function () {
+    var bn = document.getElementById('btn-normal'),
+        be = document.getElementById('btn-easy'),
+        vn = document.getElementById('view-normal'),
+        ve = document.getElementById('view-easy');
+    function show(easy) {
+      vn.hidden = easy; ve.hidden = !easy;
+      bn.setAttribute('aria-pressed', String(!easy));
+      be.setAttribute('aria-pressed', String(easy));
+    }
+    bn.addEventListener('click', function () { show(false); });
+    be.addEventListener('click', function () { show(true); });
+  })();
+</script>
