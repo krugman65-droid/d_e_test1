@@ -1,0 +1,545 @@
+<title>시흥 배움지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper:#F2F5F4; --surface:#FFFFFF; --surface-sunk:#EAEFED; --sea:#CBDEE1;
+    --land:#EFF3F0; --land-line:#9DB4AF;
+    --ink:#16262B; --ink-soft:#4D6165; --ink-faint:#7B8D8F;
+    --line:#D6DEDC; --line-strong:#B6C4C1;
+    --teal:#0E6B70; --teal-deep:#08474B; --teal-wash:#E1EDEB;
+    --block:#C98A05; --block-mark:#F0B323; --block-wash:#FBF0D6;
+    --alert:#A63A2B; --alert-wash:#F7E7E3;
+    --ok:#2F7A4F; --ok-wash:#E3F0E8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#0F191C; --surface:#16242A; --surface-sunk:#121E22; --sea:#0C1E22;
+      --land:#20363C; --land-line:#456064;
+      --ink:#E7EEEC; --ink-soft:#A7B8B7; --ink-faint:#7E9192;
+      --line:#26383D; --line-strong:#3A4F54;
+      --teal:#66C6C0; --teal-deep:#9BDCD5; --teal-wash:#12312F;
+      --block:#F0B323; --block-mark:#F0B323; --block-wash:#302610;
+      --alert:#E3897A; --alert-wash:#34211D;
+      --ok:#7FC79B; --ok-wash:#172E22;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#0F191C; --surface:#16242A; --surface-sunk:#121E22; --sea:#0C1E22;
+    --land:#20363C; --land-line:#456064;
+    --ink:#E7EEEC; --ink-soft:#A7B8B7; --ink-faint:#7E9192;
+    --line:#26383D; --line-strong:#3A4F54;
+    --teal:#66C6C0; --teal-deep:#9BDCD5; --teal-wash:#12312F;
+    --block:#F0B323; --block-mark:#F0B323; --block-wash:#302610;
+    --alert:#E3897A; --alert-wash:#34211D;
+    --ok:#7FC79B; --ok-wash:#172E22;
+  }
+
+  * { box-sizing:border-box; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.7; letter-spacing:-0.01em; -webkit-font-smoothing:antialiased;
+  }
+  .app { max-width:76rem; margin:0 auto; padding-inline:16px; padding-block:20px 28px; }
+  h1,h2 { font-family:"Gowun Batang","Apple SD Gothic Neo",serif; font-weight:700; letter-spacing:-0.02em; text-wrap:balance; }
+  .mono { font-family:"IBM Plex Mono",monospace; }
+  :focus-visible { outline:3px solid var(--block-mark); outline-offset:2px; }
+  button { font:inherit; cursor:pointer; }
+  [hidden] { display:none !important; }
+
+  /* 헤더 */
+  .head { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px 24px; padding-bottom:14px; border-bottom:2px solid var(--ink); }
+  .head h1 { font-size:1.6rem; margin:0 0 4px; }
+  .head p { margin:0; font-size:.86rem; color:var(--ink-soft); }
+  .sample-flag {
+    display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:600;
+    background:var(--block-wash); color:var(--block); border:1px solid var(--block-mark);
+    padding:3px 9px; border-radius:2px; margin-bottom:8px;
+  }
+  .stats { display:flex; gap:22px; font-size:.82rem; color:var(--ink-soft); }
+  .stats b { display:block; font-size:1.35rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; line-height:1.2; font-family:"IBM Plex Mono",monospace; }
+
+  /* 도구 막대 */
+  .toolbar { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); }
+  .search { display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line-strong); border-radius:3px; padding:6px 12px; flex:1 1 230px; max-width:320px; }
+  .search input { font:inherit; font-size:.9rem; border:0; background:none; color:var(--ink); width:100%; }
+  .search input:focus { outline:none; }
+  .search label { font-size:.85rem; color:var(--ink-faint); flex:none; }
+  .filter-group { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .filter-group > .glabel { font-size:.74rem; color:var(--ink-faint); letter-spacing:.06em; margin-right:2px; }
+  .chip {
+    font-size:.82rem; padding:4px 11px; border-radius:999px;
+    border:1px solid var(--line-strong); background:var(--surface); color:var(--ink-soft);
+  }
+  .chip[aria-pressed="true"] { background:var(--teal); border-color:var(--teal); color:#06282A; font-weight:500; }
+  .chip.acc[aria-pressed="true"] { background:var(--block-mark); border-color:var(--block); color:#3A2A02; }
+  .result-line { display:flex; align-items:center; gap:10px; font-size:.84rem; color:var(--ink-soft); padding:10px 0 12px; }
+  .result-line b { color:var(--ink); font-variant-numeric:tabular-nums; }
+  .reset { border:0; background:none; color:var(--teal); text-decoration:underline; text-underline-offset:3px; font-size:.82rem; padding:0; }
+
+  /* 본문 레이아웃 */
+  .board { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:18px; align-items:start; }
+  @media (max-width:860px) { .board { grid-template-columns:1fr; } }
+
+  /* 지도 */
+  .map-wrap { background:var(--surface); border:1px solid var(--line-strong); border-radius:5px; overflow:hidden; }
+  .map-cap { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; padding:9px 13px; border-bottom:1px solid var(--line); background:var(--surface-sunk); font-size:.76rem; color:var(--ink-faint); }
+  .map-canvas { position:relative; width:100%; aspect-ratio:1000/720; max-width:100%; background:var(--sea); }
+  .map-canvas svg { position:absolute; inset:0; width:100%; height:100%; }
+  .marker {
+    position:absolute; transform:translate(-50%,-50%);
+    width:26px; height:26px; padding:0; border-radius:50%;
+    border:2px solid var(--surface); background:var(--teal); color:#fff;
+    display:grid; place-items:center; font-size:.68rem; font-weight:700;
+    box-shadow:0 2px 6px rgba(8,40,45,.35); transition:transform .12s ease;
+  }
+  .marker:hover, .marker:focus-visible { transform:translate(-50%,-50%) scale(1.25); z-index:5; }
+  .marker.hub { width:34px; height:34px; background:var(--block-mark); color:#3A2A02; border-color:var(--surface); font-size:.75rem; }
+  .marker[aria-pressed="true"] { outline:3px solid var(--block-mark); outline-offset:2px; z-index:6; }
+  .marker.dim { opacity:.2; pointer-events:none; }
+  .dong-label { position:absolute; transform:translate(-50%,-50%); font-size:.72rem; font-weight:500; color:var(--ink-soft); pointer-events:none; letter-spacing:.02em; text-shadow:0 0 4px var(--land), 0 0 8px var(--land); }
+  .legend { display:flex; flex-wrap:wrap; gap:12px; padding:10px 13px; border-top:1px solid var(--line); font-size:.76rem; color:var(--ink-soft); }
+  .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .legend i { width:12px; height:12px; border-radius:50%; display:inline-block; }
+
+  /* 목록 / 상세 */
+  .panel { background:var(--surface); border:1px solid var(--line-strong); border-radius:5px; overflow:hidden; }
+  .panel-head { padding:9px 13px; border-bottom:1px solid var(--line); background:var(--surface-sunk); font-size:.76rem; color:var(--ink-faint); display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .list { max-height:620px; overflow-y:auto; }
+  .list-item { display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1px solid var(--line); padding:13px 15px; }
+  .list-item:hover { background:var(--teal-wash); }
+  .list-item[aria-pressed="true"] { background:var(--teal-wash); box-shadow:inset 3px 0 0 var(--teal); }
+  .list-item .name { font-weight:600; font-size:.95rem; display:block; }
+  .list-item .sub { font-size:.8rem; color:var(--ink-soft); display:block; margin-top:2px; }
+  .mini-badges { display:flex; flex-wrap:wrap; gap:4px; margin-top:7px; }
+  .mini { font-size:.7rem; border:1px solid var(--line-strong); color:var(--ink-soft); border-radius:2px; padding:1px 6px; }
+  .mini.on { border-color:var(--teal); color:var(--teal); background:var(--teal-wash); }
+  .mini.warn { border-color:var(--block); color:var(--block); background:var(--block-wash); }
+  .empty { padding:32px 18px; text-align:center; color:var(--ink-faint); font-size:.88rem; }
+
+  .detail { padding:16px 17px 20px; }
+  .back { display:inline-flex; align-items:center; gap:6px; border:0; background:none; color:var(--teal); font-size:.82rem; padding:0; margin-bottom:12px; text-decoration:underline; text-underline-offset:3px; }
+  .detail h2 { font-size:1.2rem; margin:0 0 4px; }
+  .detail .kind { font-size:.78rem; color:var(--block); font-weight:600; letter-spacing:.03em; }
+  .dl { display:grid; grid-template-columns:5.2rem 1fr; gap:6px 14px; font-size:.88rem; margin:14px 0 4px; padding-top:12px; border-top:1px dotted var(--line-strong); }
+  .dl dt { color:var(--ink-faint); font-size:.82rem; }
+  .dl dd { margin:0; }
+  .detail h3 { font-size:.8rem; color:var(--ink-faint); letter-spacing:.06em; margin:18px 0 8px; font-family:"IBM Plex Sans KR",sans-serif; font-weight:600; }
+  .badges { display:flex; flex-wrap:wrap; gap:6px; }
+  .badge { font-size:.78rem; border-radius:999px; padding:3px 10px; border:1px solid var(--line-strong); color:var(--ink-faint); background:var(--surface); }
+  .badge.yes { border-color:var(--teal); color:var(--teal); background:var(--teal-wash); }
+  .badge.no { text-decoration:line-through; opacity:.6; }
+  .badge.ask { border-color:var(--block); color:var(--block); background:var(--block-wash); }
+  .checked { font-size:.74rem; color:var(--ink-faint); margin-top:16px; padding-top:10px; border-top:1px dotted var(--line-strong); }
+  .cta { display:inline-block; margin-top:12px; background:var(--teal); color:#06282A; font-weight:600; font-size:.85rem; padding:8px 16px; border-radius:3px; border:0; }
+
+  .foot-note { margin-top:20px; font-size:.8rem; color:var(--ink-faint); border-left:3px solid var(--block-mark); background:var(--block-wash); padding:12px 15px; border-radius:0 3px 3px 0; }
+  .foot-note b { color:var(--ink); }
+  @media (prefers-reduced-motion:reduce) { * { transition:none !important; } }
+</style>
+
+<div class="app">
+  <div class="head">
+    <div>
+      <span class="sample-flag">예시 데이터 · 실제 기관 정보 아님</span>
+      <h1>시흥 배움지도</h1>
+      <p>시흥시에서 장애인이 배울 수 있는 곳을 지도와 목록으로 찾습니다.</p>
+    </div>
+    <div class="stats">
+      <div><b id="stat-org">0</b>기관</div>
+      <div><b id="stat-course">0</b>모집 중 강좌</div>
+      <div><b id="stat-sign">0</b>수어통역 가능</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <label for="q">검색</label>
+      <input id="q" type="search" placeholder="기관 이름 또는 동 이름" autocomplete="off">
+    </div>
+    <div class="filter-group" role="group" aria-label="장애 유형으로 거르기">
+      <span class="glabel">유형</span>
+      <button class="chip" type="button" data-filter="target" data-value="지체" aria-pressed="false">지체</button>
+      <button class="chip" type="button" data-filter="target" data-value="시각" aria-pressed="false">시각</button>
+      <button class="chip" type="button" data-filter="target" data-value="청각" aria-pressed="false">청각</button>
+      <button class="chip" type="button" data-filter="target" data-value="발달" aria-pressed="false">발달</button>
+    </div>
+    <div class="filter-group" role="group" aria-label="편의 지원으로 거르기">
+      <span class="glabel">지원</span>
+      <button class="chip acc" type="button" data-filter="access" data-value="wheel" aria-pressed="false">휠체어 접근</button>
+      <button class="chip acc" type="button" data-filter="access" data-value="sign" aria-pressed="false">수어통역</button>
+      <button class="chip acc" type="button" data-filter="access" data-value="easy" aria-pressed="false">쉬운 말 교재</button>
+      <button class="chip acc" type="button" data-filter="access" data-value="assist" aria-pressed="false">활동지원사 동행</button>
+      <button class="chip acc" type="button" data-filter="access" data-value="recruit" aria-pressed="false">모집 중만</button>
+    </div>
+  </div>
+
+  <p class="result-line"><span><b id="count">0</b>곳이 조건에 맞습니다.</span>
+    <button class="reset" id="reset" type="button">조건 모두 지우기</button></p>
+
+  <div class="board">
+    <div class="map-wrap">
+      <div class="map-cap">
+        <span>지도에서 고르기 — 표시를 누르면 자세한 정보가 나옵니다</span>
+        <span class="mono">도식 지도 · 실제 지형 아님</span>
+      </div>
+      <div class="map-canvas" id="canvas">
+        <svg viewBox="0 0 1000 720" role="img" aria-label="시흥시를 단순하게 그린 도식 지도. 같은 내용을 오른쪽 목록에서도 볼 수 있습니다.">
+          <defs>
+            <pattern id="water" width="16" height="16" patternUnits="userSpaceOnUse">
+              <path d="M0 8 q4 -4 8 0 t8 0" fill="none" stroke="var(--land-line)" stroke-width="1" opacity=".45"/>
+            </pattern>
+          </defs>
+          <rect x="0" y="0" width="1000" height="720" fill="var(--sea)"/>
+          <rect x="0" y="0" width="1000" height="720" fill="url(#water)"/>
+          <path d="M232 92 L352 60 L520 74 L648 58 L800 96 L880 168 L906 268 L872 330 L900 402
+                   L860 486 L900 560 L836 640 L700 664 L600 620 L470 648 L360 612 L300 520
+                   L246 470 L268 386 L208 320 L188 210 Z"
+                fill="var(--land)" stroke="var(--land-line)" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M300 520 q90 -70 180 -96 q92 -28 170 -96" fill="none"
+                stroke="var(--sea)" stroke-width="13" stroke-linecap="round" opacity=".95"/>
+          <path d="M188 210 L246 470" fill="none" stroke="var(--land-line)" stroke-width="1.5" stroke-dasharray="6 7" opacity=".8"/>
+        </svg>
+        <!-- 마커와 동 이름은 스크립트가 그립니다 -->
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--block-mark)"></i>거점 기관</span>
+        <span><i style="background:var(--teal)"></i>프로그램 운영 기관</span>
+        <span class="mono" style="color:var(--ink-faint)">갯골 · 해안선은 위치 감각을 위한 도식입니다</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span id="panel-label">기관 목록</span>
+        <span class="mono" id="panel-hint">지도와 같은 내용</span>
+      </div>
+      <div class="list" id="list" role="list"></div>
+      <div class="detail" id="detail" hidden></div>
+    </div>
+  </div>
+
+  <p class="foot-note"><b>이 화면은 시안입니다.</b> 표시된 기관·주소·연락처·강좌 수는 형식을 보여주기 위한 가상 데이터이며,
+    배경 지도는 실제 지형이 아닌 도식입니다. 배포 시에는 실제 기관 데이터와 카카오맵 또는 브이월드 지도로 교체합니다.</p>
+</div>
+
+<script type="application/json" id="dataset">
+{
+  "updated": "2026-09-11",
+  "notice": "예시 데이터입니다. 운영 시 이 블록만 실제 데이터로 교체하면 화면 전체가 갱신됩니다.",
+  "items": [
+    {
+      "id": "hub-01", "name": "정왕 장애인평생교육기관 (예시)", "kind": "거점 기관", "hub": true,
+      "dong": "정왕동", "address": "시흥시 정왕동 000-00 (예시 주소)",
+      "lat": 37.345, "lng": 126.742, "phone": "031-000-0000", "hours": "평일 09:00 ~ 18:00",
+      "targets": ["지체", "시각", "청각", "발달"], "fields": ["디지털", "문화예술", "직업역량"],
+      "courses": 12, "recruiting": true,
+      "access": { "entrance": "단차 없음", "elevator": true, "restroom": true, "parking": 3 },
+      "support": { "sign": true, "signNotice": 7, "caption": true, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "평생교육 담당", "checkedAt": "2026-09-01"
+    },
+    {
+      "id": "org-02", "name": "배곧 평생학습관 배리어프리 교실 (예시)", "kind": "평생학습관",
+      "dong": "배곧동", "address": "시흥시 배곧동 000 (예시 주소)",
+      "lat": 37.372, "lng": 126.725, "phone": "031-000-0001", "hours": "평일 09:00 ~ 21:00",
+      "targets": ["지체", "청각"], "fields": ["교양", "건강"],
+      "courses": 6, "recruiting": true,
+      "access": { "entrance": "경사로 있음", "elevator": true, "restroom": true, "parking": 2 },
+      "support": { "sign": true, "signNotice": 10, "caption": false, "easy": false, "assistant": "사전 협의" },
+      "checkedBy": "관 운영팀", "checkedAt": "2026-08-20"
+    },
+    {
+      "id": "org-03", "name": "월곶 주민학습공간 (예시)", "kind": "마을학습공간",
+      "dong": "월곶동", "address": "시흥시 월곶동 000 (예시 주소)",
+      "lat": 37.400, "lng": 126.735, "phone": "031-000-0002", "hours": "평일 10:00 ~ 17:00",
+      "targets": ["발달"], "fields": ["생활기술", "요리"],
+      "courses": 2, "recruiting": false,
+      "access": { "entrance": "계단만 있음", "elevator": false, "restroom": false, "parking": 0 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "확인 필요", "checkedAt": null
+    },
+    {
+      "id": "org-04", "name": "연성 장애인복지관 평생교육실 (예시)", "kind": "복지관",
+      "dong": "연성동", "address": "시흥시 연성동 000 (예시 주소)",
+      "lat": 37.385, "lng": 126.797, "phone": "031-000-0003", "hours": "평일 09:00 ~ 18:00",
+      "targets": ["지체", "발달"], "fields": ["직업역량", "문화예술", "체육"],
+      "courses": 9, "recruiting": true,
+      "access": { "entrance": "단차 없음", "elevator": true, "restroom": true, "parking": 4 },
+      "support": { "sign": false, "signNotice": null, "caption": true, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "복지관 교육팀", "checkedAt": "2026-08-28"
+    },
+    {
+      "id": "org-05", "name": "장곡 도서관 배움교실 (예시)", "kind": "도서관",
+      "dong": "장곡동", "address": "시흥시 장곡동 000 (예시 주소)",
+      "lat": 37.375, "lng": 126.790, "phone": "031-000-0004", "hours": "화~일 09:00 ~ 18:00",
+      "targets": ["시각", "발달"], "fields": ["독서", "디지털"],
+      "courses": 4, "recruiting": true,
+      "access": { "entrance": "단차 없음", "elevator": true, "restroom": true, "parking": 2 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": true, "assistant": "사전 협의" },
+      "checkedBy": "도서관 담당", "checkedAt": "2026-07-30"
+    },
+    {
+      "id": "org-06", "name": "대야 장애인주간활동센터 (예시)", "kind": "주간활동센터",
+      "dong": "대야동", "address": "시흥시 대야동 000 (예시 주소)",
+      "lat": 37.445, "lng": 126.798, "phone": "031-000-0005", "hours": "평일 09:00 ~ 17:00",
+      "targets": ["발달"], "fields": ["생활기술", "문화예술"],
+      "courses": 5, "recruiting": true,
+      "access": { "entrance": "단차 없음", "elevator": false, "restroom": true, "parking": 1 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "센터 운영팀", "checkedAt": "2026-09-02"
+    },
+    {
+      "id": "org-07", "name": "신천 수어배움터 (예시)", "kind": "민간 교육기관",
+      "dong": "신천동", "address": "시흥시 신천동 000 (예시 주소)",
+      "lat": 37.443, "lng": 126.786, "phone": "031-000-0006", "hours": "평일 13:00 ~ 20:00",
+      "targets": ["청각"], "fields": ["어학", "교양"],
+      "courses": 3, "recruiting": true,
+      "access": { "entrance": "경사로 있음", "elevator": true, "restroom": true, "parking": 0 },
+      "support": { "sign": true, "signNotice": 3, "caption": true, "easy": false, "assistant": "사전 협의" },
+      "checkedBy": "기관 자체 제출", "checkedAt": "2026-08-15"
+    },
+    {
+      "id": "org-08", "name": "은행 특수학교 평생교육과정 (예시)", "kind": "특수학교",
+      "dong": "은행동", "address": "시흥시 은행동 000 (예시 주소)",
+      "lat": 37.437, "lng": 126.805, "phone": "031-000-0007", "hours": "평일 15:00 ~ 19:00",
+      "targets": ["발달", "지체"], "fields": ["직업역량", "체육"],
+      "courses": 7, "recruiting": false,
+      "access": { "entrance": "단차 없음", "elevator": true, "restroom": true, "parking": 5 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "학교 교무실", "checkedAt": "2026-06-11"
+    },
+    {
+      "id": "org-09", "name": "목감 열린배움터 (예시)", "kind": "마을학습공간",
+      "dong": "목감동", "address": "시흥시 목감동 000 (예시 주소)",
+      "lat": 37.363, "lng": 126.867, "phone": "031-000-0008", "hours": "평일 10:00 ~ 18:00",
+      "targets": ["지체", "시각"], "fields": ["교양", "디지털"],
+      "courses": 4, "recruiting": true,
+      "access": { "entrance": "단차 없음", "elevator": true, "restroom": true, "parking": 2 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": false, "assistant": "사전 협의" },
+      "checkedBy": "확인 필요", "checkedAt": null
+    },
+    {
+      "id": "org-10", "name": "매화 평생학습 사랑방 (예시)", "kind": "마을학습공간",
+      "dong": "매화동", "address": "시흥시 매화동 000 (예시 주소)",
+      "lat": 37.420, "lng": 126.845, "phone": "031-000-0009", "hours": "평일 10:00 ~ 16:00",
+      "targets": ["발달", "청각"], "fields": ["원예", "생활기술"],
+      "courses": 2, "recruiting": true,
+      "access": { "entrance": "경사로 있음", "elevator": false, "restroom": false, "parking": 1 },
+      "support": { "sign": false, "signNotice": null, "caption": false, "easy": true, "assistant": "동행 가능" },
+      "checkedBy": "확인 필요", "checkedAt": null
+    }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ── 데이터 ───────────────────────────────────────────────
+     운영 배포 시: 아래 inline JSON을 지우고 data.json 을 fetch 하도록 바꾸면
+     담당자가 HTML을 건드리지 않고 데이터만 갱신할 수 있습니다. (README 참고) */
+  var DATA = JSON.parse(document.getElementById("dataset").textContent);
+  var ITEMS = DATA.items;
+
+  /* ── 좌표 → 화면 위치 (도식 지도용 단순 선형 투영) ──────────
+     실제 지도(카카오맵·브이월드)로 교체하면 이 함수는 필요 없습니다.
+     지도 API가 lat/lng을 그대로 받기 때문에 데이터 구조는 바뀌지 않습니다. */
+  var BOX = { west: 126.66, east: 126.89, south: 37.30, north: 37.47 };
+  function project(lat, lng) {
+    return {
+      x: ((lng - BOX.west) / (BOX.east - BOX.west)) * 84 + 9,   // %
+      y: ((BOX.north - lat) / (BOX.north - BOX.south)) * 82 + 8 // %
+    };
+  }
+
+  var state = { q: "", targets: [], access: [], selected: null };
+
+  var canvas = document.getElementById("canvas");
+  var listEl = document.getElementById("list");
+  var detailEl = document.getElementById("detail");
+  var countEl = document.getElementById("count");
+  var panelLabel = document.getElementById("panel-label");
+  var panelHint = document.getElementById("panel-hint");
+
+  /* ── 동 이름 라벨 ── */
+  var DONGS = [
+    { n: "정왕동", lat: 37.335, lng: 126.730 }, { n: "배곧동", lat: 37.379, lng: 126.712 },
+    { n: "월곶동", lat: 37.409, lng: 126.726 }, { n: "연성동", lat: 37.396, lng: 126.812 },
+    { n: "대야·신천", lat: 37.452, lng: 126.793 }, { n: "목감동", lat: 37.351, lng: 126.878 },
+    { n: "매화동", lat: 37.427, lng: 126.858 }
+  ];
+  DONGS.forEach(function (d) {
+    var p = project(d.lat, d.lng), el = document.createElement("span");
+    el.className = "dong-label"; el.textContent = d.n;
+    el.style.left = p.x + "%"; el.style.top = p.y + "%";
+    canvas.appendChild(el);
+  });
+
+  /* ── 마커 만들기 ── */
+  var markers = {};
+  ITEMS.forEach(function (it) {
+    var p = project(it.lat, it.lng);
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "marker" + (it.hub ? " hub" : "");
+    b.style.left = p.x + "%"; b.style.top = p.y + "%";
+    b.textContent = it.courses;
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", it.name + ", " + it.dong + ", 모집 강좌 " + it.courses + "개");
+    b.addEventListener("click", function () { select(it.id); });
+    canvas.appendChild(b);
+    markers[it.id] = b;
+  });
+
+  /* ── 조건에 맞는지 ── */
+  function match(it) {
+    var q = state.q.trim();
+    if (q && (it.name + " " + it.dong + " " + it.kind).indexOf(q) === -1) return false;
+    if (state.targets.length && !state.targets.every(function (t) { return it.targets.indexOf(t) !== -1; })) return false;
+    return state.access.every(function (a) {
+      if (a === "wheel")   return it.access.entrance !== "계단만 있음" && it.access.elevator;
+      if (a === "sign")    return !!it.support.sign;
+      if (a === "easy")    return !!it.support.easy;
+      if (a === "assist")  return it.support.assistant === "동행 가능";
+      if (a === "recruit") return !!it.recruiting;
+      return true;
+    });
+  }
+
+  function badge(on, text, ask) {
+    return '<span class="badge ' + (ask ? "ask" : on ? "yes" : "no") + '">' + text + "</span>";
+  }
+
+  /* ── 목록 그리기 ── */
+  function render() {
+    var shown = ITEMS.filter(match);
+    countEl.textContent = shown.length;
+
+    ITEMS.forEach(function (it) {
+      markers[it.id].classList.toggle("dim", shown.indexOf(it) === -1);
+    });
+
+    document.getElementById("stat-org").textContent = shown.length;
+    document.getElementById("stat-course").textContent =
+      shown.reduce(function (s, it) { return s + (it.recruiting ? it.courses : 0); }, 0);
+    document.getElementById("stat-sign").textContent =
+      shown.filter(function (it) { return it.support.sign; }).length;
+
+    if (!shown.length) {
+      listEl.innerHTML = '<p class="empty">조건에 맞는 곳이 없습니다.<br>조건을 하나씩 줄여 보세요.</p>';
+      return;
+    }
+    listEl.innerHTML = shown.map(function (it) {
+      return '<button type="button" class="list-item" role="listitem" data-id="' + it.id + '" aria-pressed="' +
+        (state.selected === it.id) + '">' +
+        '<span class="name">' + it.name + "</span>" +
+        '<span class="sub">' + it.kind + " · " + it.dong + " · " +
+          (it.recruiting ? "모집 중 " + it.courses + "개 강좌" : "현재 모집 없음") + "</span>" +
+        '<span class="mini-badges">' +
+          (it.access.elevator ? '<span class="mini on">휠체어 접근</span>' : '<span class="mini">계단 이용</span>') +
+          (it.support.sign ? '<span class="mini on">수어통역</span>' : "") +
+          (it.support.easy ? '<span class="mini on">쉬운 말 교재</span>' : "") +
+          (it.checkedAt ? "" : '<span class="mini warn">정보 확인 필요</span>') +
+        "</span></button>";
+    }).join("");
+
+    Array.prototype.forEach.call(listEl.querySelectorAll(".list-item"), function (el) {
+      el.addEventListener("click", function () { select(el.dataset.id); });
+    });
+    sendHeight();
+  }
+
+  /* ── 상세 보기 ── */
+  function select(id) {
+    state.selected = id;
+    var it = ITEMS.filter(function (x) { return x.id === id; })[0];
+    Object.keys(markers).forEach(function (k) {
+      markers[k].setAttribute("aria-pressed", String(k === id));
+    });
+
+    var sup = it.support, acc = it.access;
+    detailEl.innerHTML =
+      '<button type="button" class="back" id="back">← 목록으로 돌아가기</button>' +
+      '<span class="kind">' + it.kind + "</span>" +
+      "<h2>" + it.name + "</h2>" +
+      '<p style="margin:0;font-size:.86rem;color:var(--ink-soft)">' +
+        (it.recruiting ? "지금 " + it.courses + "개 강좌를 신청할 수 있습니다." : "지금은 모집하는 강좌가 없습니다.") + "</p>" +
+      '<dl class="dl">' +
+        "<dt>주소</dt><dd>" + it.address + "</dd>" +
+        "<dt>전화</dt><dd>" + it.phone + "</dd>" +
+        "<dt>운영시간</dt><dd>" + it.hours + "</dd>" +
+        "<dt>분야</dt><dd>" + it.fields.join(" · ") + "</dd>" +
+        "<dt>대상</dt><dd>" + it.targets.join(" · ") + " 장애</dd>" +
+      "</dl>" +
+      "<h3>가는 길과 시설</h3><div class='badges'>" +
+        badge(acc.entrance !== "계단만 있음", "출입구 " + acc.entrance) +
+        badge(acc.elevator, "엘리베이터") +
+        badge(acc.restroom, "장애인 화장실") +
+        badge(acc.parking > 0, "전용주차 " + acc.parking + "면") +
+      "</div>" +
+      "<h3>받을 수 있는 도움</h3><div class='badges'>" +
+        badge(sup.sign, "수어통역" + (sup.sign ? " (" + sup.signNotice + "일 전 신청)" : "")) +
+        badge(sup.caption, "문자통역·속기") +
+        badge(sup.easy, "쉬운 말 교재") +
+        badge(sup.assistant === "동행 가능", "활동지원사 " + sup.assistant) +
+        (it.checkedAt ? "" : badge(false, "그 밖의 지원은 전화로 확인", true)) +
+      "</div>" +
+      '<button type="button" class="cta">이 기관 강좌 보기</button>' +
+      '<p class="checked">정보 확인: ' + it.checkedBy + (it.checkedAt ? " · " + it.checkedAt : " · 미확인") + "</p>";
+
+    listEl.hidden = true; detailEl.hidden = false;
+    panelLabel.textContent = "기관 상세"; panelHint.textContent = it.dong;
+    document.getElementById("back").addEventListener("click", backToList);
+    detailEl.querySelector("h2").setAttribute("tabindex", "-1");
+    detailEl.querySelector("h2").focus();
+    sendHeight();
+  }
+
+  function backToList() {
+    state.selected = null;
+    Object.keys(markers).forEach(function (k) { markers[k].setAttribute("aria-pressed", "false"); });
+    detailEl.hidden = true; listEl.hidden = false;
+    panelLabel.textContent = "기관 목록"; panelHint.textContent = "지도와 같은 내용";
+    render();
+  }
+
+  /* ── 조건 버튼 ── */
+  Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (chip) {
+    chip.addEventListener("click", function () {
+      var key = chip.dataset.filter === "target" ? "targets" : "access";
+      var val = chip.dataset.value, i = state[key].indexOf(val);
+      if (i === -1) { state[key].push(val); } else { state[key].splice(i, 1); }
+      chip.setAttribute("aria-pressed", String(i === -1));
+      if (!detailEl.hidden) { backToList(); } else { render(); }
+    });
+  });
+  document.getElementById("q").addEventListener("input", function (e) {
+    state.q = e.target.value;
+    if (!detailEl.hidden) { backToList(); } else { render(); }
+  });
+  document.getElementById("reset").addEventListener("click", function () {
+    state.q = ""; state.targets = []; state.access = [];
+    document.getElementById("q").value = "";
+    Array.prototype.forEach.call(document.querySelectorAll(".chip"), function (c) {
+      c.setAttribute("aria-pressed", "false");
+    });
+    backToList();
+  });
+
+  /* ── iframe 높이 알리기 ──────────────────────────────────
+     부모 페이지(쏙)에서 이 메시지를 받아 iframe 높이를 맞춥니다.
+     운영 시 "*" 대신 쏙의 실제 주소를 넣어 주세요. README 참고. */
+  function sendHeight() {
+    if (window.parent === window) return;
+    var h = document.documentElement.scrollHeight;
+    window.parent.postMessage({ type: "ssoc-map-height", height: h }, "*");
+  }
+  window.addEventListener("resize", sendHeight);
+
+  render();
+  sendHeight();
+})();
+</script>

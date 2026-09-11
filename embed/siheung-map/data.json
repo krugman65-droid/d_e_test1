@@ -1,0 +1,368 @@
+{
+  "updated": "2026-09-11",
+  "notice": "예시 데이터입니다. 운영 시 이 블록만 실제 데이터로 교체하면 화면 전체가 갱신됩니다.",
+  "items": [
+    {
+      "id": "hub-01",
+      "name": "정왕 장애인평생교육기관 (예시)",
+      "kind": "거점 기관",
+      "hub": true,
+      "dong": "정왕동",
+      "address": "시흥시 정왕동 000-00 (예시 주소)",
+      "lat": 37.345,
+      "lng": 126.742,
+      "phone": "031-000-0000",
+      "hours": "평일 09:00 ~ 18:00",
+      "targets": [
+        "지체",
+        "시각",
+        "청각",
+        "발달"
+      ],
+      "fields": [
+        "디지털",
+        "문화예술",
+        "직업역량"
+      ],
+      "courses": 12,
+      "recruiting": true,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 3
+      },
+      "support": {
+        "sign": true,
+        "signNotice": 7,
+        "caption": true,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "평생교육 담당",
+      "checkedAt": "2026-09-01"
+    },
+    {
+      "id": "org-02",
+      "name": "배곧 평생학습관 배리어프리 교실 (예시)",
+      "kind": "평생학습관",
+      "dong": "배곧동",
+      "address": "시흥시 배곧동 000 (예시 주소)",
+      "lat": 37.372,
+      "lng": 126.725,
+      "phone": "031-000-0001",
+      "hours": "평일 09:00 ~ 21:00",
+      "targets": [
+        "지체",
+        "청각"
+      ],
+      "fields": [
+        "교양",
+        "건강"
+      ],
+      "courses": 6,
+      "recruiting": true,
+      "access": {
+        "entrance": "경사로 있음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 2
+      },
+      "support": {
+        "sign": true,
+        "signNotice": 10,
+        "caption": false,
+        "easy": false,
+        "assistant": "사전 협의"
+      },
+      "checkedBy": "관 운영팀",
+      "checkedAt": "2026-08-20"
+    },
+    {
+      "id": "org-03",
+      "name": "월곶 주민학습공간 (예시)",
+      "kind": "마을학습공간",
+      "dong": "월곶동",
+      "address": "시흥시 월곶동 000 (예시 주소)",
+      "lat": 37.4,
+      "lng": 126.735,
+      "phone": "031-000-0002",
+      "hours": "평일 10:00 ~ 17:00",
+      "targets": [
+        "발달"
+      ],
+      "fields": [
+        "생활기술",
+        "요리"
+      ],
+      "courses": 2,
+      "recruiting": false,
+      "access": {
+        "entrance": "계단만 있음",
+        "elevator": false,
+        "restroom": false,
+        "parking": 0
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "확인 필요",
+      "checkedAt": null
+    },
+    {
+      "id": "org-04",
+      "name": "연성 장애인복지관 평생교육실 (예시)",
+      "kind": "복지관",
+      "dong": "연성동",
+      "address": "시흥시 연성동 000 (예시 주소)",
+      "lat": 37.385,
+      "lng": 126.797,
+      "phone": "031-000-0003",
+      "hours": "평일 09:00 ~ 18:00",
+      "targets": [
+        "지체",
+        "발달"
+      ],
+      "fields": [
+        "직업역량",
+        "문화예술",
+        "체육"
+      ],
+      "courses": 9,
+      "recruiting": true,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 4
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": true,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "복지관 교육팀",
+      "checkedAt": "2026-08-28"
+    },
+    {
+      "id": "org-05",
+      "name": "장곡 도서관 배움교실 (예시)",
+      "kind": "도서관",
+      "dong": "장곡동",
+      "address": "시흥시 장곡동 000 (예시 주소)",
+      "lat": 37.375,
+      "lng": 126.79,
+      "phone": "031-000-0004",
+      "hours": "화~일 09:00 ~ 18:00",
+      "targets": [
+        "시각",
+        "발달"
+      ],
+      "fields": [
+        "독서",
+        "디지털"
+      ],
+      "courses": 4,
+      "recruiting": true,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 2
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": true,
+        "assistant": "사전 협의"
+      },
+      "checkedBy": "도서관 담당",
+      "checkedAt": "2026-07-30"
+    },
+    {
+      "id": "org-06",
+      "name": "대야 장애인주간활동센터 (예시)",
+      "kind": "주간활동센터",
+      "dong": "대야동",
+      "address": "시흥시 대야동 000 (예시 주소)",
+      "lat": 37.445,
+      "lng": 126.798,
+      "phone": "031-000-0005",
+      "hours": "평일 09:00 ~ 17:00",
+      "targets": [
+        "발달"
+      ],
+      "fields": [
+        "생활기술",
+        "문화예술"
+      ],
+      "courses": 5,
+      "recruiting": true,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": false,
+        "restroom": true,
+        "parking": 1
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "센터 운영팀",
+      "checkedAt": "2026-09-02"
+    },
+    {
+      "id": "org-07",
+      "name": "신천 수어배움터 (예시)",
+      "kind": "민간 교육기관",
+      "dong": "신천동",
+      "address": "시흥시 신천동 000 (예시 주소)",
+      "lat": 37.443,
+      "lng": 126.786,
+      "phone": "031-000-0006",
+      "hours": "평일 13:00 ~ 20:00",
+      "targets": [
+        "청각"
+      ],
+      "fields": [
+        "어학",
+        "교양"
+      ],
+      "courses": 3,
+      "recruiting": true,
+      "access": {
+        "entrance": "경사로 있음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 0
+      },
+      "support": {
+        "sign": true,
+        "signNotice": 3,
+        "caption": true,
+        "easy": false,
+        "assistant": "사전 협의"
+      },
+      "checkedBy": "기관 자체 제출",
+      "checkedAt": "2026-08-15"
+    },
+    {
+      "id": "org-08",
+      "name": "은행 특수학교 평생교육과정 (예시)",
+      "kind": "특수학교",
+      "dong": "은행동",
+      "address": "시흥시 은행동 000 (예시 주소)",
+      "lat": 37.437,
+      "lng": 126.805,
+      "phone": "031-000-0007",
+      "hours": "평일 15:00 ~ 19:00",
+      "targets": [
+        "발달",
+        "지체"
+      ],
+      "fields": [
+        "직업역량",
+        "체육"
+      ],
+      "courses": 7,
+      "recruiting": false,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 5
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "학교 교무실",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "id": "org-09",
+      "name": "목감 열린배움터 (예시)",
+      "kind": "마을학습공간",
+      "dong": "목감동",
+      "address": "시흥시 목감동 000 (예시 주소)",
+      "lat": 37.363,
+      "lng": 126.867,
+      "phone": "031-000-0008",
+      "hours": "평일 10:00 ~ 18:00",
+      "targets": [
+        "지체",
+        "시각"
+      ],
+      "fields": [
+        "교양",
+        "디지털"
+      ],
+      "courses": 4,
+      "recruiting": true,
+      "access": {
+        "entrance": "단차 없음",
+        "elevator": true,
+        "restroom": true,
+        "parking": 2
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": false,
+        "assistant": "사전 협의"
+      },
+      "checkedBy": "확인 필요",
+      "checkedAt": null
+    },
+    {
+      "id": "org-10",
+      "name": "매화 평생학습 사랑방 (예시)",
+      "kind": "마을학습공간",
+      "dong": "매화동",
+      "address": "시흥시 매화동 000 (예시 주소)",
+      "lat": 37.42,
+      "lng": 126.845,
+      "phone": "031-000-0009",
+      "hours": "평일 10:00 ~ 16:00",
+      "targets": [
+        "발달",
+        "청각"
+      ],
+      "fields": [
+        "원예",
+        "생활기술"
+      ],
+      "courses": 2,
+      "recruiting": true,
+      "access": {
+        "entrance": "경사로 있음",
+        "elevator": false,
+        "restroom": false,
+        "parking": 1
+      },
+      "support": {
+        "sign": false,
+        "signNotice": null,
+        "caption": false,
+        "easy": true,
+        "assistant": "동행 가능"
+      },
+      "checkedBy": "확인 필요",
+      "checkedAt": null
+    }
+  ]
+}
